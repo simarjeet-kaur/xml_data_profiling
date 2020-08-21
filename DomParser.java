@@ -67,7 +67,6 @@ public class DomParser {
 				String experimentPath = ELNDataPathname + file_.getName() + "\\" + file.getName();
 				xmlFile experiment = new xmlFile(experimentPath);
 				hashMaps.add(experiment.returnFieldCountsMap());
-				//totalHashMaps.add(experiment.returnFieldCountsMap());
 				total++;
 			}
 			numberOfExperiments = hashMaps.size();
@@ -100,17 +99,16 @@ public class DomParser {
 			}
 			Collections.sort(keys);
 			
-		//outputing the results into CSV files
 			System.out.println("--------------");
 			System.out.println(file_.getName() + ", Count: " + numberOfExperiments);
 			System.out.println("--------------"); 
-			//System.out.println(keys.size());
 			for (Object key : keys) {
 				int value = initialHashMap.get(key);
 		    	float percentage = ((float) value / (float) numberOfExperiments) * 100;
 				System.out.println(key + ": " + value + " - " + df.format(percentage));
 			} 
 			
+			//outputing the results into CSV files
 			File finalData = new File("C:\\Users\\kaursima\\Desktop\\CSV Data");
 			 try (FileWriter writer = new FileWriter(new File(finalData + "\\" + file_.getName() + " - " + numberOfExperiments + ".csv"))) {
 
@@ -131,7 +129,6 @@ public class DomParser {
 				    	  String tab = key.substring(0, dash);
 				    	  String section = key.substring(dash + 1, key.length());
 				    	  
-				    	 // Float percentage = (float) value / numberOfExperiments;
 				    	  float percentage = ((float) value / (float) numberOfExperiments) * 100;
 				    	  
 				    	  sb.append(tab);
@@ -143,9 +140,7 @@ public class DomParser {
 				    	  sb.append(df.format(percentage));
 					      sb.append('\n');
 				      }
-				      
-				    //  System.out.println(sb.toString());
-				      
+				      				      
 				      writer.write(sb.toString());
 				      writer.flush();
 				      writer.close();
@@ -156,6 +151,8 @@ public class DomParser {
 				    
 			
 		}
+		
+		//repeating same process for all files
 		
 		totalKeys = totalHashMaps.get(0).keySet();
 		
@@ -173,6 +170,8 @@ public class DomParser {
 			totalInitialHashMap = totalCombiningHashMap;
 		}
 		
+		//printing out the counts for all files
+		
 		System.out.println("--------------");
 		System.out.println("All Files" + " : " + total);
 		System.out.println("--------------"); 
@@ -184,18 +183,14 @@ public class DomParser {
 		}
 		Collections.sort(totalKeys);
 		
-		//System.out.println(totalKeys.size());
-		
-		//Integer extra = 0;
-		
 		for (String key_ : totalKeys) {
 			Integer count = totalInitialHashMap.get(key_);
 			float percentage = (float) count / (float) total;
 			System.out.println(key_ + ": " + count + " - " + df.format(percentage));
-			//extra++;
 		}
-		//System.out.println(extra);
 	
+		//putting all files data into a CSV file
+		
 		File finalData1 = new File("C:\\Users\\kaursima\\Desktop\\CSV Data");
 		 try (FileWriter writer = new FileWriter(new File(finalData1 + "\\All Files - " + total + ".csv"))) {
 
@@ -228,9 +223,7 @@ public class DomParser {
 				      sb.append('\n');
 				      
 			      }
-			      
-			    //  System.out.println(sb.toString());
-			      
+			      			      
 			      writer.write(sb.toString());
 			      writer.flush();
 			      writer.close();
@@ -238,47 +231,5 @@ public class DomParser {
 			    } catch (FileNotFoundException e) {
 			      System.out.println(e.getMessage());
 			    }
-		}
-			    
-		
+		}	
 	}
-	
-
-			//repeating the same process, but for all of the experiments in one output			
-		/*	totalHashMaps = new ArrayList<HashMap<String, Integer>>();
-			
-			for (File f : experimentTypes) {
-				String path = ELNDataPathname + f.getName();
-				File data = new File(path);
-				File[] files = data.listFiles();
-				for (File file : files) {
-					String experimentPath = ELNDataPathname + f.getName() + "\\" + file.getName();
-					xmlFile experiment = new xmlFile(experimentPath);
-					totalHashMaps.add(experiment.returnFieldCountsMap());
-				}
-			}
-				totalNumberOfExperiments = totalHashMaps.size();
-				totalKeys = totalHashMaps.get(0).keySet().toArray();
-				for (int i = 0; i < totalNumberOfExperiments - 1; i++) {
-						totalInitialHashMap = totalHashMaps.get(i);
-						totalCombiningHashMap = totalHashMaps.get(i+1);
-						for (Object key : totalKeys) {
-							Integer initialCount = totalInitialHashMap.get(key);
-							Integer combiningCount = 0;
-							if (totalCombiningHashMap.containsKey(key)) {
-								combiningCount = totalCombiningHashMap.get(key);
-							} 
-							totalCombiningHashMap.put((String) key,  initialCount + combiningCount);
-						}
-						totalInitialHashMap = totalCombiningHashMap;
-					}
-			
-			for (Object key : totalKeys) {
-				Integer value = totalInitialHashMap.get(key);
-				System.out.println(key + ": " + value);
-			}		
-		} 
-	}
-	
-	*/
- 
